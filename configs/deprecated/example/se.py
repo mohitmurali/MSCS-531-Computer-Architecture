@@ -71,6 +71,13 @@ from common.cpu2000 import *
 from common.FileSystemConfig import config_filesystem
 from ruby import Ruby
 
+from m5.objects import *
+cpu = TimingSimpleCPU()
+cpu.mmu = X86MMU()  # Use the MMU for x86
+cpu.mmu.itb.size = 32  # Instruction TLB size
+cpu.mmu.dtb.size = 32  # Data TLB size
+
+
 
 def get_processes(args):
     """Interprets provided args and returns a list of processes"""
@@ -295,4 +302,7 @@ if args.wait_gdb:
     system.workload.wait_for_remote_gdb = True
 
 root = Root(full_system=False, system=system)
+
+
+
 Simulation.run(args, root, system, FutureClass)
